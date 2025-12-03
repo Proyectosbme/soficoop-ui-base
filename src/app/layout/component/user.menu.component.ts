@@ -10,14 +10,15 @@ import { AvatarModule } from 'primeng/avatar';
     selector: 'app-user-menu',
     standalone: true,
     imports: [CommonModule, RouterModule, ButtonModule, MenuModule, AvatarModule],
-        templateUrl: './user.menu.component.html'})
+    templateUrl: './user.menu.component.html'
+})
 export class UserMenuComponent {
     items: MenuItem[] = [];
 
     ngOnInit() {
         this.items = [
             {
-                label: 'Opciones',
+                label: 'Ronald Sánchez',
                 items: [
                     {
                         label: 'Configuración',

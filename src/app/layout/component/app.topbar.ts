@@ -6,10 +6,12 @@ import { StyleClassModule } from 'primeng/styleclass';
 import { AppConfigurator } from './app.configurator';
 import { LayoutService } from '../service/layout.service';
 
+import { UserMenuComponent } from './user.menu.component';
+
 @Component({
     selector: 'app-topbar',
     standalone: true,
-    imports: [RouterModule, CommonModule, StyleClassModule, AppConfigurator],
+    imports: [RouterModule, CommonModule, StyleClassModule, AppConfigurator, UserMenuComponent],
         templateUrl: './app.topbar.component.html'
 })
 export class AppTopbar {

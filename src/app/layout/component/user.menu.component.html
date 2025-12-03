@@ -1,7 +1,6 @@
-        <div class="flex align-items-center ml-2">                                                                                                             
-            <p-avatar label="RS" styleClass="mr-2" size="large" shape="circle"></p-avatar>                                                                     
-            <span class="font-bold text-lg mr-3">Ronald Sánchez</span>                                                                                         
-                                                                                                                                                               
-            <p-menu #menu [model]="items" [popup]="true" appendTo="body"></p-menu>                                                                             
-            <button pButton icon="pi pi-angle-down" class="p-button-rounded p-button-text" (click)="menu.toggle($event)"></button>                             
-        </div>
+<div class="flex align-items-center ml-2">
+    <p-avatar label="RS" styleClass="mr-2" size="large" shape="circle"></p-avatar>
+    <p-menu #menu [model]="items" [popup]="true" appendTo="body"></p-menu>
+    <button pButton icon="pi pi-angle-down" class="p-button-rounded p-button-text"
+        (click)="menu.toggle($event)"></button>
+</div>
