@@ -91,12 +91,15 @@ ToClass="hidden" leaveActiveClass="animate-fadeout" [hideOnOutsideClick]="true">
                         <i class="pi pi-calendar"></i>                                                                                                         
                         <span>Calendar</span>                                                                                                                  
                     </button>                                                                                                                                  
-                    <button type="button" class="layout-topbar-action">                                                                                        
-                        <i class="pi pi-inbox"></i>                                                                                                            
-                        <span>Messages</span>                                                                                                                  
-                    </button>                                                                                                                                  
-                    <app-user-menu></app-user-menu>                                                                                                                                  
-                </div>                                                                                                                                         
-            </div>                                                                                                                                             
-        </div>                                                                                                                                                 
-    </div>
+                                         <button type="button" class="layout-topbar-action" (click)="notificationsPanel.toggle($event)">
+                                            <i class="pi pi-inbox"></i>
+                                            <span>Messages</span>
+                                            <p-badge *ngIf="unreadCount > 0" [value]="unreadCount" severity="danger"></p-badge>
+                                        </button>
+                                        <p-popover #notificationspanel [style]="{width: '25rem'}">
+                                            <app-notifications></app-notifications>
+                                        </p-popover>
+                                        <app-user-menu></app-user-menu>
+                                    </div>
+                                </div>
+                            </div>    </div>
