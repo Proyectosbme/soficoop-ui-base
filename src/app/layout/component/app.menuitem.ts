@@ -11,21 +11,22 @@ import { LayoutService } from '../service/layout.service';
 @Component({
     // eslint-disable-next-line @angular-eslint/component-selector
     selector: '[app-menuitem]',
+    standalone: true,   // 👈 ESTO ES OBLIGATORIO
     imports: [CommonModule, RouterModule, RippleModule],
     templateUrl: './app.menuitem.component.html',
     animations: [
         trigger('children', [
-            state(
-                'collapsed',
-                style({
-                    height: '0'
-                })
+            state('collapsed', style({
+                height: '0',
+                overflow: 'hidden',
+                visibility: 'visible'
+            })
             ),
-            state(
-                'expanded',
-                style({
-                    height: '*'
-                })
+            state('expanded', style({
+                height: '*',
+                overflow: 'hidden',
+                visibility: 'visible'
+            })
             ),
             transition('collapsed <=> expanded', animate('400ms cubic-bezier(0.86, 0, 0.07, 1)'))
         ])
