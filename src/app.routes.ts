@@ -1,19 +1,19 @@
 import { Routes } from '@angular/router';
-import { AppLayout } from './app/layout/component/app.layout';
-import { Notfound } from './app/pages/notfound/notfound';
-import { HolaMundo } from './app/pages/hola-mundo/hola-mundo';
+import { AppLayout } from './app/ui/layout/component/app.layout';
+import { Notfound } from './app/ui/pages/public/notfound/notfound';
+import{Login} from './app/ui/pages/security/auth/login';
 
 
 export const appRoutes: Routes = [
     {
-        path: '',
-        component: AppLayout,
+        path: '', component: AppLayout,
         children: [
-            { path: '', loadChildren: () => import('./app/pages/pages.routes') },
-            { path: 'hola-mundo', component: HolaMundo }
+            {
+                path: '', loadChildren: () => import('./app/ui/pages/pages.routes').then(m => m.PAGES_ROUTES)
+            }
         ]
     },
     { path: 'notfound', component: Notfound },
-    { path: 'auth', loadChildren: () => import('./app/pages/auth/auth.routes') },
+      { path: 'login', component: Login },
     { path: '**', redirectTo: '/notfound' }
 ];
