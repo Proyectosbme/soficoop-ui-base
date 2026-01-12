@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
 import { MenuItem } from 'primeng/api';
 import { AppMenuitem } from './app.menuitem';
+import { MenuService } from '@framework/security/menu.service';
+import {  EmptyMenuException,  InvalidProfileException,  SecurityException} from '@domain/security.exceptions';
+
 
 @Component({
     selector: 'app-menu',
@@ -15,15 +17,37 @@ export class AppMenu implements OnInit {
 
     model: MenuItem[] = [];
 
- private readonly MENU_URL = 'http://localhost:9095/menu/170';
+  constructor(private readonly menuService: MenuService) {}
 
-    constructor(private http: HttpClient) {}
+  ngOnInit(): void {
+    this.loadMenu();
+  }
 
-    ngOnInit(): void {
-        this.http.get<MenuItem[]>(this.MENU_URL)
-            .subscribe({
-                next: data => this.model = data,
-                error: err => console.error('Error cargando menú dinámico', err)
-            });
+private async loadMenu(): Promise<void> {
+  try {
+    const codPerfil = 170;
+    this.model = await this.menuService.load(codPerfil);
+
+  } catch (e) {
+
+    if (e instanceof InvalidProfileException) {
+      console.warn(e.message);
+      return;
     }
+
+    if (e instanceof EmptyMenuException) {
+      console.info(e.message);
+      this.model = [];
+      return;
+    }
+
+    if (e instanceof SecurityException) {
+      console.error(e.message);
+      return;
+    }
+
+    console.error('Error técnico inesperado', e);
+  }
+}
+
 }
