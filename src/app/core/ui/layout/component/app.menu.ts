@@ -21,9 +21,6 @@ export class AppMenu implements OnInit {
         private readonly menuInputPort: MenuInputPort
     ) { }
 
-
-
-
     ngOnInit(): void {
         let codperfil: number = 170;
         this.menuInputPort.cargarMenu(codperfil).then(menu => {
