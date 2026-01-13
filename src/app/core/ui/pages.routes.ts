@@ -8,6 +8,6 @@ export const PAGES_ROUTES: Routes = [
     },
     {
         path: 'security', loadChildren: () =>
-            import('./security/security.routes').then(m => m.SECURITY_ROUTES)
+            import('../../security/ui/pages/security.routes').then(m => m.SECURITY_ROUTES)
     }
 ];

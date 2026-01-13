@@ -1,10 +1,10 @@
 import { Provider } from '@angular/core';
-import { MENU_INPUT_PORT } from 'app/security/application/port/input/menu-input.token';
-import { MENU_REPOSITORY_PORT } from 'app/security/application/port/output/menu-repository.token';
-import { MenuApiAdapter } from 'app/security/framework/security/menu-api.adapter';
-import { LoadMenuUseCase } from 'app/security/application/usecase/load-menu.usecase';
-import { MenuService } from 'app/security/application/service/menu-application.service';
-import { MenuRepositoryPort} from 'app/security/application/port/output/menu-repository-port';
+import { MENU_INPUT_PORT } from '@security/application/port/input/menu-input.token';
+import { MENU_REPOSITORY_PORT } from '@security/application/port/output/menu-repository.token';
+import { MenuApiAdapter } from '@security/framework/security/menu-api.adapter';
+import { LoadMenuUseCase } from '@security/application/usecase/load-menu.usecase';
+import { MenuService } from '@security/application/service/menu-application.service';
+import { MenuRepositoryPort} from '@security/application/port/output/menu-repository-port';
 
 export const SECURITY_PROVIDERS: Provider[] = [
   // OutputPort
@@ -21,7 +21,7 @@ export const SECURITY_PROVIDERS: Provider[] = [
     deps: [MENU_REPOSITORY_PORT]
   },
 
-  // InputPort  👈 ESTE ES EL QUE TE FALTA
+  // InputPort  
   {
     provide: MENU_INPUT_PORT,
     useFactory: (uc: LoadMenuUseCase) =>

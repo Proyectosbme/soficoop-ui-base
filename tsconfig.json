@@ -31,12 +31,10 @@
 
     /* 🔑 ARCHITECTURE ALIASES */
     "paths": {
-      "@domain/*": ["app/domain/*"],
-      "@application/*": ["app/application/*"],
-      "@framework/*": ["app/framework/*"],
-      "@infrastructure/*": ["app/framework/*"],
-      "@ui/*": ["app/ui/*"],
-      "@assets/*": ["assets/*"]
+      "@core/*": ["app/core/*"],
+      "@security/*": ["app/security/*"],
+      "@general/*": ["app/general/*"],
+      "@shared/*": ["app/shared/*"]
     }
   },
   "angularCompilerOptions": {
