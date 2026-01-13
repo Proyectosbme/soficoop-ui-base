@@ -1,6 +1,25 @@
-<div class="card flex justify-center gap-2">
-    <p-toast />
-    <p-confirmpopup />
-    <p-button (onClick)="confirm1($event)" label="Save" [outlined]="true" />
-    <p-button (onClick)="confirm2($event)" label="Delete" severity="danger" [outlined]="true" />
-</div>
+<app-dynamic-tabs
+  [tabs]="tabs"
+  [activeValue]="activeTab"
+  [templates]="tabTemplates"
+  (tabChange)="onTabChange($event)"
+>
+</app-dynamic-tabs>
+
+<!-- 🔽 Templates de los tabs -->
+
+<ng-template #tabUnoTpl>
+  <div class="card">
+    <h3>Hola 👋</h3>
+    <p>Este es el contenido del primer tab.</p>
+  </div>
+</ng-template>
+
+<ng-template #tabDosTpl>
+  <div class="card">
+    <h3>Segundo Tab</h3>
+    <p>Aquí puedes poner cualquier componente.</p>
+  </div>
+</ng-template>
+
+

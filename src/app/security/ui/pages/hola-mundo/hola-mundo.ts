@@ -1,62 +1,40 @@
-import { Component } from '@angular/core';
-import { ConfirmationService, MessageService } from 'primeng/api';
-import { ButtonModule } from 'primeng/button';
-import { ToastModule } from 'primeng/toast';
-import { ConfirmPopupModule } from 'primeng/confirmpopup';
+import { Component, TemplateRef, ViewChild, AfterViewInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { DynamicTabs } from '@shared/ui/components/tabs/dynamic-tabs/dynamic-tabs';
+import { UiTab } from '@shared/ui/components/tabs/ui-tab.model';
 
 @Component({
     selector: 'app-hola-mundo',
-    imports: [ButtonModule, ToastModule, ConfirmPopupModule],
+    standalone: true,
+    imports: [CommonModule, DynamicTabs],
     templateUrl: './hola-mundo.html',
     styleUrl: './hola-mundo.scss',
-    providers: [ConfirmationService, MessageService]
 })
-export class HolaMundo {
-    constructor(private confirmationService: ConfirmationService, private messageService: MessageService) { }
+export class HolaMundo implements AfterViewInit {
 
-    confirm1(event: Event) {
-        this.confirmationService.confirm({
-            target: event.currentTarget as EventTarget,
-            message: 'Are you sure you want to proceed?',
-            icon: 'pi pi-exclamation-triangle',
-            rejectButtonProps: {
-                label: 'Cancel',
-                severity: 'secondary',
-                outlined: true
-            },
-            acceptButtonProps: {
-                label: 'Save'
-            },
-            accept: () => {
-                this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted', life: 3000 });
-            },
-            reject: () => {
-                this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 3000 });
-            }
-        });
+    // 🔹 Definición de tabs
+    tabs: UiTab[] = [
+        { value: 'uno', title: 'Tab Uno' },
+        { value: 'dos', title: 'Tab Dos' }
+    ];
+
+    activeTab = 'uno';
+
+    // 🔹 Templates
+    @ViewChild('tabUnoTpl') tabUnoTpl!: TemplateRef<any>;
+    @ViewChild('tabDosTpl') tabDosTpl!: TemplateRef<any>;
+
+    tabTemplates!: Record<string, TemplateRef<any>>;
+
+    ngAfterViewInit(): void {
+        this.tabTemplates = {
+            uno: this.tabUnoTpl,
+            dos: this.tabDosTpl,
+        };
     }
 
-    confirm2(event: Event) {
-        this.confirmationService.confirm({
-            target: event.currentTarget as EventTarget,
-            message: 'Do you want to delete this record?',
-            icon: 'pi pi-info-circle',
-            rejectButtonProps: {
-                label: 'Cancel',
-                severity: 'secondary',
-                outlined: true
-            },
-            acceptButtonProps: {
-                label: 'Delete',
-                severity: 'danger'
-            },
-            accept: () => {
-                this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Record deleted', life: 3000 });
-            },
-            reject: () => {
-                this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 3000 });
-            }
-        });
+    onTabChange(tab: UiTab) {
+        this.activeTab = tab.value;
+        console.log('Tab activo:', tab.value);
     }
-
 }
