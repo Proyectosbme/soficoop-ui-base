@@ -4,14 +4,14 @@
  * Define QUÉ necesita la aplicación del mundo exterior.
  */
 
-import { MenuItem } from '@domain/menu.model';
+import { MenuItem } from 'app/security/domain/menu.model';
 
 /**
  *
  * Repositorio de Menú.
  * */
 
-export interface MenuRepository {
+export interface MenuRepositoryPort {
 
   /**
    * Obtiene las opciones de menú para un perfil.

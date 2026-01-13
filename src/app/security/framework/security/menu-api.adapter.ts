@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { MenuRepository } from '@application/port/output/menuRepository';
-import { MenuItem } from '@domain/menu.model';
+import { MenuRepositoryPort } from 'app/security/application/port/output/menu-repository-port';
+import { MenuItem } from 'app/security/domain/menu.model';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
-export class MenuApiService implements MenuRepository {
+export class MenuApiAdapter implements MenuRepositoryPort {
 
     private readonly BASE_URL = 'http://localhost:9095/menu';
 

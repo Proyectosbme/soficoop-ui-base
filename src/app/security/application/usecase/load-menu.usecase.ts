@@ -1,9 +1,6 @@
-import { MenuRepository } from '@application/port/output/menuRepository';
-import { MenuItem } from '@domain/menu.model';
-import {
-    EmptyMenuException,
-    InvalidProfileException
-} from '@domain/security.exceptions';
+import { MenuRepositoryPort } from 'app/security/application/port/output/menu-repository-port';
+import { MenuItem } from 'app/security/domain/menu.model';
+import { EmptyMenuException, InvalidProfileException} from 'app/security/domain/security.exceptions';
 
 /**
  * Caso de uso: Cargar menú del sistema.
@@ -16,15 +13,14 @@ import {
  * - NO conoce infraestructura ni HTTP.
  */
 export class LoadMenuUseCase {
-
+    /**
+          * Dependencia hacia un PUERTO DE SALIDA.
+          *
+          * El caso de uso necesita obtener información del exterior,
+          * pero NO sabe cómo ni desde dónde.
+          */
     constructor(
-        /**
-         * Dependencia hacia un PUERTO DE SALIDA.
-         *
-         * El caso de uso necesita obtener información del exterior,
-         * pero NO sabe cómo ni desde dónde.
-         */
-        private readonly repository: MenuRepository
+        private readonly repository: MenuRepositoryPort
     ) { }
 
     /**
@@ -44,12 +40,10 @@ export class LoadMenuUseCase {
         // Llamada al puerto de salida
         return this.repository.cargarMenu(profileId)
             .then(menu => {
-
                 // Regla del negocio: el menú no puede estar vacío
                 if (!menu || menu.length === 0) {
                     throw new EmptyMenuException();
                 }
-
                 return menu;
             });
     }
