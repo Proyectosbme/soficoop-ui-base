@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
+import { MenuItem } from '../../domain/menu.model';
 
 @Injectable()
 export class SecurityApiClient {
@@ -13,7 +14,7 @@ export class SecurityApiClient {
 
   getMenu(codPerfil: number) {
     return firstValueFrom(
-      this.http.get<any[]>(`${this.BASE_URL}/menu-perfil/jerarquico/perfil/${codPerfil}`)
+      this.http.get<MenuItem[]>(`${this.BASE_URL}/menu-perfil/jerarquico/perfil/${codPerfil}`)
     );
   }
 

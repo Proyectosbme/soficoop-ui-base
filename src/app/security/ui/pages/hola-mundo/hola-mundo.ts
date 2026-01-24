@@ -14,8 +14,8 @@ export class HolaMundo implements AfterViewInit {
 
     // 🔹 Definición de tabs
     tabs: UiTab[] = [
-        { value: 'uno', title: 'Tab Uno' },
-        { value: 'dos', title: 'Tab Dos' }
+        { value: 'uno', title: 'Busqueda' },
+        { value: 'dos', title: 'Detalle' }
     ];
 
     activeTab = 'uno';
