@@ -22,7 +22,7 @@ export class AppMenu implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        let codperfil: number = 170;
+        let codperfil: number = 1;
         this.menuInputPort.cargarMenu(codperfil).then(menu => {
             this.model = menu;
         });
