@@ -17,7 +17,12 @@
 
     background-color: var(--surface-overlay); // Fondo del sidebar
     border-radius: var(--content-border-radius); // Bordes redondeados
-    padding: 0.5rem;                     // Padding compacto (ocupa más ancho útil)
+    border: 1px solid var(--surface-border); // Borde sutil
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); // Sombra profesional
+    padding: 0.2rem;                     // Padding ultra compacto
+    letter-spacing: 0.15px;              // Tipografía más fina
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
 
     transition:                          // Animación suave
         transform var(--layout-section-transition-duration),
@@ -28,13 +33,13 @@
    CONTENEDOR DE CADA MÓDULO (ROOT)
    ========================================================= */
 li.layout-root-menuitem {
-    margin: 0;              // Espacio entre módulos (compacto)
+    margin: 0 0 0.2rem;                  // Separación entre módulos
 
-    border: 1px solid #e0e0e0;            // Borde general del bloque
-    border-radius: 20px;                 // Redondeo SOLO del contenedor
+    border: 1px solid var(--surface-border); // Borde general del bloque
+    border-radius: 18px;                 // Redondeo SOLO del contenedor
 
-    background-color: transparent;        // Fondo neutro
-    box-shadow: 0 1px 3px rgba(0,0,0,.08); // Sombra ligera tipo tarjeta
+    background-color: var(--surface-card); // Fondo neutro tipo tarjeta
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06); // Sombra ligera tipo tarjeta
 
     overflow: hidden;                    // 🔑 evita cortes con textos largos
 }
@@ -47,33 +52,71 @@ li.layout-root-menuitem {
     align-items: center;                 // Alineación vertical
     gap: 0.75rem;                        // Espacio icono ↔ texto
 
-    padding: 0.65rem 1rem;               // Espaciado interno cómodo
+    padding: 0.75rem 1.05rem;            // Espaciado interno cómodo
 
     font-size: 0.95rem;                  // Tamaño de texto legible
-    font-weight: 800;                    // Peso medio
+    font-weight: 700;                    // Peso medio
     letter-spacing: 0.2px;               // Mejor lectura
     line-height: 1.3;                    // 🔑 evita montajes en textos largos
 
     background-color: transparent;        // Fondo neutro
     cursor: pointer;                     // Indicador de acción
 
-    border: 1px solid #e0e0e0;            // Borde propio cuando está cerrado
-    border-radius: 10px;                  // Leve redondeo interno
+    border: 1px solid transparent;       // Borde invisible para alinear
+    border-radius: 14px;                 // Leve redondeo interno
 
     box-shadow: none;                    // Sin sombras duplicadas
 
-    transition: background-color 0.2s ease;
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+/* Bordes visibles para raíz cuando está cerrado */
+.layout-menu > li:not(.active-menuitem) > .layout-menuitem-root-link {
+    border-color: var(--surface-border);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.layout-menuitem-root-link:hover {
+    background-color: var(--surface-hover);
+    border-color: var(--surface-border);
+    color: var(--text-color);
 }
 
 /* =========================================================
    ROOT ACTIVO (MÓDULO ABIERTO)
    ========================================================= */
-li.active-menuitem > .layout-menuitem-root-link {
-    font-weight: 700;                    // Más énfasis visual
+.layout-menu > li.active-menuitem > .layout-menuitem-root-link {
+    font-weight: 800;                    // Más énfasis visual
     background-color: var(--surface-hover); // Fondo activo
 
-    border: none;                        // 🔑 se integra al contenedor
-    border-radius: 10 px;                    // Root plano
+    border: 1px solid var(--surface-border); // 🔑 se integra al contenedor
+    border-radius: 14px 14px 0 0;        // Solo esquinas superiores
+}
+
+/* Raíces dentro de submenús sin borde y con esquinas redondeadas */
+.layout-menu ul .layout-menuitem-root-link {
+    border: none;
+    border-radius: 12px;
+    background-color: transparent;
+}
+
+.layout-menu ul li.active-menuitem > .layout-menuitem-root-link {
+    border: none;
+    border-radius: 12px;
+    background-color: var(--surface-hover);
+}
+
+.layout-menu ul .layout-menuitem-root-link:hover {
+    border-radius: 12px;                // 4 esquinas al pasar el mouse
+}
+
+/* Forzar 4 esquinas en raíces internas (activo/hover) */
+.layout-menu ul li.active-menuitem > .layout-menuitem-root-link,
+.layout-menu ul li.active-menuitem > .layout-menuitem-root-link:hover {
+    border-radius: 12px;
 }
 
 /* =========================================================
@@ -81,7 +124,7 @@ li.active-menuitem > .layout-menuitem-root-link {
    ========================================================= */
 .layout-menuitem-root-link .layout-menuitem-icon {
     font-size: 1.1rem;                   // Tamaño de icono
-    flex-shrink: 10px;                      // Nunca se achica
+    flex-shrink: 0;                      // Nunca se achica
 }
 
 /* =========================================================
@@ -116,8 +159,36 @@ li.active-menuitem > .layout-menuitem-root-link {
    ========================================================= */
 .layout-menu ul {
     margin: 0;
-    padding:0.5px 0.75rem 0.5px;       // Espacio interno del submenú
+    padding: 0;                         // 🔑 sin padding cuando está cerrado
     list-style: none;                    // Sin bullets
+}
+
+.layout-menu > li.active-menuitem > ul {
+    padding: 0.35rem 0 0.35rem;         // Espacio interno cuando está abierto
+    background-color: transparent;
+    border-left: 1px solid color-mix(in srgb, var(--surface-border), transparent 25%);
+    border-right: 1px solid color-mix(in srgb, var(--surface-border), transparent 25%);
+    border-bottom: 1px solid color-mix(in srgb, var(--surface-border), transparent 25%);
+    border-radius: 0 0 12px 12px;       // Esquinas inferiores redondeadas
+    box-shadow: none;
+}
+
+/* Submenús internos sin borde para evitar doble línea */
+.layout-menu ul li.active-menuitem > ul {
+    padding: 0.35rem 0 0.35rem;
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+/* Solo el último hijo hoja cierra el cuadro (nivel raíz) */
+.layout-menu > li.active-menuitem > ul > li:last-child > a:not(.layout-menuitem-root-link) {
+    border-radius: 0 0 12px 12px;
+}
+
+.layout-menu li:not(.active-menuitem) > ul {
+    overflow: hidden;                   // Evita que asomen bordes internos
 }
 
 /* =========================================================
@@ -128,19 +199,25 @@ li.active-menuitem > .layout-menuitem-root-link {
     align-items: center;
     gap: 0.5rem;                         // Espacio icono ↔ texto
 
-    padding: 0.45rem 0.75rem;            // Espaciado compacto
-    margin-top:  0.1px;                    // Separación vertical leve
+    padding: 0.6rem 0.9rem;              // Espaciado compacto
+    padding-left: 2.6rem;                // Sangría base para primer nivel
+    margin-top: 0.125rem;                // Separación vertical leve
+
+    width: 100%;
+    box-sizing: border-box;              // Mantiene el mismo borde final
 
     line-height: 1.3;                    // Texto cómodo de leer
     color: var(--text-color);            // Color del tema
 
-    border-radius: 10px;                  // Bordes suaves
+    border-radius: 12px;                 // Bordes suaves
     cursor: pointer;
     border: none;
+    font-weight: 600;
 
     transition:
         background-color var(--element-transition-duration),
-        box-shadow var(--element-transition-duration);
+        box-shadow var(--element-transition-duration),
+        color var(--element-transition-duration);
 }
 
 /* =========================================================
@@ -148,12 +225,24 @@ li.active-menuitem > .layout-menuitem-root-link {
    ========================================================= */
 .layout-menu ul a:hover {
     background-color: var(--surface-hover);
+    box-shadow: inset 2px 0 0 color-mix(in srgb, var(--primary-color), transparent 70%);
 }
 
 .layout-menu ul a.active-route {
     font-weight: 700;
-    padding:0.5px 0.75rem 0.5px;
+    background-color: color-mix(in srgb, var(--primary-color), transparent 88%);
     color: var(--primary-color);
+    box-shadow: inset 2px 0 0 var(--primary-color);
+}
+
+/* Sombra solo en seleccionados hijos */
+.layout-menu ul a.active-route {
+    box-shadow: inset 2px 0 0 var(--primary-color), 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.layout-menu > li > a.active-route,
+.layout-menu > li.active-menuitem > a.active-route {
+    box-shadow: inset 2px 0 0 var(--primary-color); // Sin sombra extra en raíz
 }
 
 /* =========================================================
@@ -170,19 +259,24 @@ li.active-menuitem > .layout-menuitem-root-link {
     flex-shrink: 0;                      // Nunca se encogen
 }
 
+.layout-menu ul a.active-route .layout-menuitem-icon {
+    color: var(--primary-color);
+}
+
 /* =========================================================
    NIVELES DE PROFUNDIDAD (INDENTACIÓN)
    ========================================================= */
 .layout-menu ul ul {
     overflow: hidden;
-
-    li a { margin-left: 1rem; }
-    li li a { margin-left: 2rem; }
-    li li li a { margin-left: 2.5rem; }
-    li li li li a { margin-left: 3rem; }
-    li li li li li a { margin-left: 3.5rem; }
-    li li li li li li a { margin-left: 4rem; }
+    padding-left: 0;                     // Sin sangría en contenedor
 }
+
+/* Indentación al inicio sin afectar el borde derecho */
+.layout-menu ul ul a { padding-left: 3.2rem; padding-right: 0.9rem; }
+.layout-menu ul ul ul a { padding-left: 3.9rem; padding-right: 0.9rem; }
+.layout-menu ul ul ul ul a { padding-left: 4.6rem; padding-right: 0.9rem; }
+.layout-menu ul ul ul ul ul a { padding-left: 5.3rem; padding-right: 0.9rem; }
+.layout-menu ul ul ul ul ul ul a { padding-left: 6rem; padding-right: 0.9rem; }
 
 /* =========================================================
    ANIMACIONES DEL SUBMENÚ

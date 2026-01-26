@@ -1,25 +1,117 @@
-<app-dynamic-tabs
-  [tabs]="tabs"
-  [activeValue]="activeTab"
-  [templates]="tabTemplates"
-  (tabChange)="onTabChange($event)"
->
-</app-dynamic-tabs>
+<div class="page-header">
+  <p-breadcrumb [home]="breadcrumbHome" [model]="breadcrumbItems"></p-breadcrumb>
+  <div class="page-title">Gestión de Módulos</div>
+</div>
 
-<!-- 🔽 Templates de los tabs -->
+<p-toolbar styleClass="mb-4">
+  <ng-template pTemplate="left">
+    <button pButton label="Nuevo" icon="pi pi-plus" class="mr-2"></button>
+    <button pButton label="Eliminar" icon="pi pi-trash" severity="danger" outlined></button>
+  </ng-template>
+  <ng-template pTemplate="right">
+    <button pButton label="Exportar" icon="pi pi-download" severity="secondary" outlined></button>
+  </ng-template>
+</p-toolbar>
 
-<ng-template #tabUnoTpl>
-  <div class="card">
-    <h3>Hola 👋</h3>
-    <p>Este es el contenido del primer tab.</p>
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">Filtros de búsqueda</div>
+    <div class="search-actions">
+      <button pButton label="Buscar" icon="pi pi-search"></button>
+      <button pButton label="Limpiar" icon="pi pi-refresh" severity="secondary" outlined></button>
+    </div>
   </div>
-</ng-template>
-
-<ng-template #tabDosTpl>
-  <div class="card">
-    <h3>Segundo Tab</h3>
-    <p>Aquí puedes poner cualquier componente.</p>
+  <div class="search-grid">
+    <div class="field">
+      <label>ID</label>
+      <input pInputText placeholder="Ej: 101" />
+    </div>
+    <div class="field">
+      <label>Nombre</label>
+      <input pInputText placeholder="Módulo de seguridad" />
+    </div>
+    <div class="field">
+      <label>Estado</label>
+      <p-select [options]="estadoOptions" optionLabel="label" placeholder="Todos"></p-select>
+    </div>
   </div>
-</ng-template>
+</div>
+
+<div class="card">
+  <p-table
+    [value]="modulos"
+    [paginator]="true"
+    [rows]="5"
+    [rowsPerPageOptions]="[5, 10, 20]"
+    [tableStyle]="{ 'min-width': '60rem' }"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 8rem">ID</th>
+        <th>Nombre</th>
+        <th>Estado</th>
+        <th>Descripción</th>
+        <th style="width: 12rem">Acciones</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-modulo>
+      <tr>
+        <td>{{ modulo.id }}</td>
+        <td>{{ modulo.nombre }}</td>
+        <td>{{ modulo.estado }}</td>
+        <td>{{ modulo.descripcion }}</td>
+        <td class="actions-col">
+          <button pButton icon="pi pi-eye" class="p-button-text p-button-rounded" severity="secondary"></button>
+          <button pButton icon="pi pi-pencil" class="p-button-text p-button-rounded"></button>
+          <button pButton icon="pi pi-trash" class="p-button-text p-button-rounded" severity="danger"></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<div class="page-header">
+  <div class="page-title">Detalle de Módulo</div>
+</div>
+
+<p-toolbar styleClass="mb-4">
+  <ng-template pTemplate="left">
+    <button pButton label="Nuevo" icon="pi pi-plus" class="mr-2"></button>
+    <button pButton label="Guardar" icon="pi pi-save" class="mr-2"></button>
+    <button pButton label="Cancelar" icon="pi pi-times" severity="secondary" outlined></button>
+  </ng-template>
+  <ng-template pTemplate="right">
+    <button pButton label="Eliminar" icon="pi pi-trash" severity="danger" outlined></button>
+  </ng-template>
+</p-toolbar>
+
+<div class="card">
+  <div class="form-grid">
+    <div class="field">
+      <label>ID</label>
+      <input pInputText value="101" disabled />
+    </div>
+    <div class="field">
+      <label>Nombre</label>
+      <input pInputText value="Seguridad" />
+    </div>
+    <div class="field">
+      <label>Estado</label>
+      <p-select [options]="estadoOptions" optionLabel="label" placeholder="Activo"></p-select>
+    </div>
+    <div class="field">
+      <label>Ruta</label>
+      <input pInputText value="/seguridad" />
+    </div>
+    <div class="field">
+      <label>Orden</label>
+      <input pInputText value="1" />
+    </div>
+    <div class="field field-full">
+      <label>Descripción</label>
+      <textarea class="p-inputtext w-full" rows="3">Gestión de accesos y perfiles</textarea>
+    </div>
+  </div>
+</div>
 
 
