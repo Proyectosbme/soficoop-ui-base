@@ -1,0 +1,119 @@
+<p-toast position="top-right"></p-toast>
+
+<p-confirmDialog></p-confirmDialog>
+
+<section class="content-section profile-layout" [class.quick-nav-hidden]="!showQuickNav">
+  <app-page-hero
+    class="full-span"
+    [icon]="'pi pi-users'"
+    [title]="'Gestión de Perfiles'"
+    [subtitle]="'Crea, edita y elimina perfiles del sistema.'"
+  ></app-page-hero>
+
+  <div class="main-column">
+    <div class="section-group">
+      <div class="search-table-group">
+        <div id="perfil-busqueda">
+          <app-search-panel
+            [icon]="'pi pi-search'"
+            [title]="'Buscar perfil por ID'"
+            [subtitle]="'Consulta un perfil existente.'"
+            [form]="searchForm"
+            [fields]="searchFields"
+            (search)="buscarPorId()"
+            (clear)="limpiarBusqueda()"
+          ></app-search-panel>
+        </div>
+
+        <div id="perfil-tabla">
+          <app-table
+            [items]="perfiles"
+            [selectedItem]="selectedPerfil"
+            [title]="'Listado de perfiles'"
+            [createLabel]="'Nuevo perfil'"
+            [emptyTitle]="'Sin perfiles registrados'"
+            [emptySubtitle]="'Crea el primer perfil para empezar.'"
+            (create)="openCreateDialog()"
+            (edit)="edit($event)"
+            (remove)="confirmRemove($event)"
+            (select)="selectPerfil($event)"
+          ></app-table>
+        </div>
+      </div>
+
+      <div class="details-group">
+        <div id="perfil-detalle" class="detail-card accent-teal">
+          <app-detail-panel
+            [title]="'Detalle del perfil'"
+            [subtitle]="'Información del perfil seleccionado.'"
+            [form]="detailForm"
+            [fields]="detailFields"
+          ></app-detail-panel>
+        </div>
+
+        <div id="perfil-detalle-2" class="detail-card accent-green">
+          <app-detail-panel
+            [title]="'Detalle Adicional (Detalle 2)'"
+            [subtitle]="'Información adicional del perfil.'"
+            [form]="detailForm2"
+            [fields]="detailFields2"
+          ></app-detail-panel>
+        </div>
+
+        <div id="perfil-detalle-3" class="detail-card accent-purple">
+          <app-detail-panel
+            [title]="'Parámetros (Detalle 3)'"
+            [subtitle]="'Configuración del perfil.'"
+            [form]="detailForm3"
+            [fields]="detailFields3"
+          ></app-detail-panel>
+        </div>
+
+        <div id="perfil-detalle-4" class="detail-card accent-amber">
+          <app-detail-panel
+            [title]="'Configuración Final (Detalle 4)'"
+            [subtitle]="'Resumen y ajustes finales.'"
+            [form]="detailForm4"
+            [fields]="detailFields4"
+          ></app-detail-panel>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <aside class="side-column" [class.is-hidden]="!showQuickNav">
+    <div class="side-column-inner">
+      <button
+        type="button"
+        class="quick-nav-fab"
+        (click)="toggleQuickNav()"
+        [attr.aria-expanded]="showQuickNav"
+      >
+        <i class="pi" [ngClass]="showQuickNav ? 'pi-chevron-right' : 'pi-chevron-left'"></i>
+      </button>
+      <app-quick-nav
+        *ngIf="showQuickNav"
+        [title]="'Navegación rápida'"
+        [items]="quickNavItems"
+        [hintTitle]="'TIP'"
+        [hintText]="'Usa la navegación rápida para ir a las secciones.'"
+        [hintIcon]="'pi pi-bolt'"
+      ></app-quick-nav>
+    </div>
+  </aside>
+</section>
+
+<app-form-dialog
+  [(visible)]="showFormDialog"
+  [form]="form"
+  [isSubmitting]="isSubmitting"
+  [headerCreate]="'Crear perfil'"
+  [headerEdit]="'Editar perfil'"
+  [subtitle]="'Completa la información básica del perfil.'"
+  [submitCreateLabel]="'Crear'"
+  [submitUpdateLabel]="'Actualizar'"
+  [fields]="formFields"
+  [dialogClass]="'modulo-dialog'"
+  (submitForm)="onSubmit()"
+  (resetForm)="openCreateDialog()"
+></app-form-dialog>

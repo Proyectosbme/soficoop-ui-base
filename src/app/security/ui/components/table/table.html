@@ -1,0 +1,80 @@
+<div class="card card-elevated">
+  <div class="card-header">
+    <div>
+      <div class="card-title">{{ title }}</div>
+      <div class="card-subtitle">{{ totalLabel }}: {{ items.length }}</div>
+    </div>
+    <div class="table-actions">
+      <button
+        *ngIf="showCreate"
+        pButton
+        type="button"
+        [label]="createLabel"
+        icon="pi pi-plus"
+        (click)="create.emit()"
+      ></button>
+    </div>
+  </div>
+
+  <p-table
+    [value]="items"
+    [loading]="isLoading"
+    [sortField]="'id'"
+    [sortOrder]="1"
+    [paginator]="true"
+    [rows]="5"
+    [rowsPerPageOptions]="[5, 10, 20]"
+    [tableStyle]="{ 'min-width': '40rem' }"
+    styleClass="p-datatable-sm"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 8rem" pSortableColumn="id">
+          ID
+          <p-sortIcon field="id"></p-sortIcon>
+        </th>
+        <th pSortableColumn="nombre">
+          Nombre
+          <p-sortIcon field="nombre"></p-sortIcon>
+        </th>
+        <th style="width: 10rem">Acciones</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-item>
+      <tr (click)="select.emit(item)" [ngClass]="{ 'row-selected': isSelected(item) }">
+        <td>{{ item.id ?? '-' }}</td>
+        <td>
+          <div class="item-name">{{ item.nombre }}</div>
+          <div class="item-meta" *ngIf="item.meta || metaText">{{ item.meta || metaText }}</div>
+        </td>
+        <td class="actions-col">
+          <button
+            pButton
+            type="button"
+            icon="pi pi-pencil"
+            class="p-button-text p-button-rounded"
+            (click)="$event.stopPropagation(); edit.emit(item)"
+          ></button>
+          <button
+            pButton
+            type="button"
+            icon="pi pi-trash"
+            severity="danger"
+            class="p-button-text p-button-rounded"
+            (click)="$event.stopPropagation(); remove.emit(item)"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="3">
+          <app-empty-state
+            [title]="emptyTitle"
+            [subtitle]="emptySubtitle"
+          ></app-empty-state>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

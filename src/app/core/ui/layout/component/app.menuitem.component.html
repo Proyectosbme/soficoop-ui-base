@@ -1,0 +1,49 @@
+
+<ng-container>
+    <!-- Raíz -->
+    <a
+        *ngIf="(!item.routerLink || item.items) && item.visible !== false"
+        class="layout-menuitem-link layout-menuitem-root-link"
+        [attr.href]="item.url"
+        (click)="itemClick($event)"
+        tabindex="0"
+        pRipple>
+        <i [ngClass]="item.icon" class="layout-menuitem-icon"></i>
+        <span class="layout-menuitem-text">{{ item.label }}</span>
+        <i class="pi pi-fw pi-angle-down layout-submenu-toggler" *ngIf="hasChildren(item)"></i>
+    </a>
+
+    <!-- Leaf -->
+    <a
+        *ngIf="item.routerLink && !item.items && item.visible !== false"
+        (click)="itemClick($event)"
+        [ngClass]="item.styleClass"
+        [routerLink]="item.routerLink"
+        routerLinkActive="active-route"
+        [routerLinkActiveOptions]="item.routerLinkActiveOptions || { paths: 'exact', queryParams: 'ignored', matrixParams: 'ignored', fragment: 'ignored' }"
+        [fragment]="item.fragment"
+        [queryParamsHandling]="item.queryParamsHandling"
+        [preserveFragment]="item.preserveFragment"
+        [skipLocationChange]="item.skipLocationChange"
+        [replaceUrl]="item.replaceUrl"
+        [state]="item.state"
+        [queryParams]="item.queryParams"
+        [attr.target]="item.target"
+        tabindex="0"
+        pRipple>
+        <i [ngClass]="item.icon" class="layout-menuitem-icon"></i>
+        <span class="layout-menuitem-text">{{ item.label }}</span>
+        <i class="pi pi-fw pi-angle-down layout-submenu-toggler" *ngIf="hasChildren(item)"></i>
+    </a>
+
+    <ul *ngIf="hasChildren(item) && item.visible !== false" [@children]="submenuAnimation">
+        <ng-template ngFor let-child let-i="index" [ngForOf]="item.items">
+            <li
+                app-menuitem
+                [item]="child"
+                [index]="i"
+                [parentKey]="key"
+                [class]="child['badgeClass']"></li>
+        </ng-template>
+    </ul>
+</ng-container>

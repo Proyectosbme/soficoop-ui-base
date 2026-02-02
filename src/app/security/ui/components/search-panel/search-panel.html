@@ -1,0 +1,41 @@
+<div class="card card-elevated">
+  <div class="card-header">
+    <div class="header-content">
+      <div class="header-icon" *ngIf="icon">
+        <i [class]="icon"></i>
+      </div>
+      <div>
+        <div class="card-title">{{ title }}</div>
+        <div class="card-subtitle" *ngIf="subtitle">{{ subtitle }}</div>
+      </div>
+    </div>
+    <div class="actions">
+      <button pButton type="button" [label]="searchLabel" icon="pi pi-search" (click)="search.emit()"></button>
+      <button
+        *ngIf="showClear"
+        pButton
+        type="button"
+        [label]="clearLabel"
+        icon="pi pi-times"
+        severity="secondary"
+        outlined
+        (click)="clear.emit()"
+      ></button>
+    </div>
+  </div>
+
+  <form [formGroup]="form" class="search-grid" (ngSubmit)="search.emit()">
+    <ng-container *ngFor="let field of fields">
+      <div class="field">
+        <label [for]="field.name">{{ field.label }}</label>
+        <input
+          [id]="field.name"
+          [type]="field.type || 'text'"
+          pInputText
+          [formControlName]="field.name"
+          [placeholder]="field.placeholder || ''"
+        />
+      </div>
+    </ng-container>
+  </form>
+</div>

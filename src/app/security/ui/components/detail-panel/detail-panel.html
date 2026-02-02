@@ -1,0 +1,28 @@
+<div class="card card-elevated">
+  <div class="card-header">
+    <div>
+      <div class="card-title">{{ title }}</div>
+      <div class="card-subtitle" *ngIf="subtitle">{{ subtitle }}</div>
+    </div>
+  </div>
+
+  <form [formGroup]="form" class="detail-grid">
+    <ng-container *ngFor="let field of fields">
+      <div class="field">
+        <label [for]="field.name">{{ field.label }}</label>
+        <input
+          [id]="field.name"
+          [type]="field.type || 'text'"
+          pInputText
+          [formControlName]="field.name"
+          [placeholder]="field.placeholder || ''"
+          [readonly]="readonly || (field.readonly ?? false)"
+        />
+      </div>
+    </ng-container>
+  </form>
+
+  <div class="actions" *ngIf="showActions">
+    <ng-content select="[detail-actions]"></ng-content>
+  </div>
+</div>
