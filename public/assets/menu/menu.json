@@ -1,44 +1,49 @@
 [
   {
-    "label": "Home",
+    "codigo": 1,
+    "icon": "pi pi-fw pi-folder",
     "items": [
       {
-        "label": "Bienvenida",
-        "icon": "pi pi-fw pi-home",
-        "routerLink": ["/"]
-      }
-    ]
-  },
-  {
-    "label": "Pages",
-    "icon": "pi pi-fw pi-briefcase",
-    "items": [
-      {
-        "label": "Auth",
-        "icon": "pi pi-fw pi-user",
-        "items": [
-          {
-            "label": "Login",
-            "icon": "pi pi-fw pi-sign-in",
-            "routerLink": ["/auth/login"]
-          },
-          {
-            "label": "Error",
-            "icon": "pi pi-fw pi-times-circle",
-            "routerLink": ["/auth/error"]
-          },
-          {
-            "label": "Access Denied",
-            "icon": "pi pi-fw pi-lock",
-            "routerLink": ["/auth/access"]
-          }
+        "codigo": 2,
+        "icon": "pi pi-fw pi-desktop",
+        "label": "Modulo",
+        "orden": 1,
+        "routerLink": [
+          "security/modulo"
         ]
       },
       {
-        "label": "Not Found",
-        "icon": "pi pi-fw pi-exclamation-circle",
-        "routerLink": ["/notfound"]
+        "codigo": 7,
+        "icon": "pi pi-fw pi-desktop",
+        "label": "Perfil",
+        "orden": 2,
+        "routerLink": [
+          "security/perfil"
+        ]
       }
-    ]
+    ],
+    "label": "General",
+    "orden": 1
+  },
+  {
+    "codigo": 3,
+    "icon": "pi pi-fw pi-folder",
+    "items": [],
+    "label": "Seguridad",
+    "orden": 2
+  },
+  {
+    "codigo": 4,
+    "icon": "pi pi-fw pi-folder",
+    "items": [],
+    "label": "Contabilidad",
+    "orden": 3
+  },
+  {
+    "codigo": 5,
+    "icon": "pi pi-fw pi-folder",
+    "items": [],
+    "label": "Finanzas",
+    "orden": 4
   }
 ]
