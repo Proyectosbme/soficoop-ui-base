@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { AppLayout } from './app/core/ui/layout/component/app.layout';
 import { Notfound } from './app/core/ui/public/notfound/notfound';
-import{Login} from './app/security/ui/pages/auth/login';
+import { Login } from './app/features/security/pages/auth/login';
 
 
 export const appRoutes: Routes = [

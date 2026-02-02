@@ -32,7 +32,15 @@
     /* 🔑 ARCHITECTURE ALIASES */
     "paths": {
       "@core/*": ["app/core/*"],
-      "@security/*": ["app/security/*"],
+      "@security/*": ["app/features/security/*"],
+      "app/security/*": ["app/features/security/*"],
+      "@security/components/*": ["app/features/security/components/*"],
+      "@security/pages/*": ["app/features/security/pages/*"],
+      "@security/routes/*": ["app/features/security/routes/*"],
+      "@security/services/*": ["app/features/security/services/*"],
+      "@security/models/*": ["app/features/security/models/*"],
+      "@security/api/*": ["app/features/security/api/*"],
+      "@security/dto/*": ["app/features/security/dto/*"],
       "@general/*": ["app/general/*"],
       "@shared/*": ["app/shared/*"]
     }

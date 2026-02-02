@@ -5,8 +5,8 @@ import { MenuItem as PrimeMenuItem } from 'primeng/api';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { MenuItem as DomainMenuItem } from '@security/domain/menu.model';
-import { MenuStateService } from '@security/ui/service/menu-state.service';
+import { MenuItem as DomainMenuItem } from '@security/models/menu.model';
+import { MenuStateService } from '@security/services/menu-state.service';
 
 @Component({
   selector: 'app-breadcrumb',

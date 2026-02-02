@@ -1,0 +1,71 @@
+.page-header {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	margin-bottom: 1rem;
+}
+
+.page-title {
+	font-size: 1.25rem;
+	font-weight: 600;
+}
+
+.card-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	margin-bottom: 1rem;
+}
+
+.card-title {
+	font-size: 1rem;
+	font-weight: 600;
+	color: var(--text-color, #334155);
+}
+
+.form-grid,
+.search-grid {
+	display: grid;
+	grid-template-columns: repeat(12, 1fr);
+	gap: 1rem;
+}
+
+.field {
+	grid-column: span 4;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+.field-full {
+	grid-column: span 12;
+}
+
+.actions-col {
+	display: flex;
+	gap: 0.25rem;
+}
+
+.search-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 0.5rem;
+}
+
+@media (max-width: 992px) {
+	.field,
+	.field.actions {
+		grid-column: span 12;
+	}
+
+	.search-actions {
+		justify-content: flex-start;
+		width: 100%;
+	}
+
+	.card-header {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+}

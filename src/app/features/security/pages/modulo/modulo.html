@@ -1,0 +1,72 @@
+<p-toast position="top-right"></p-toast>
+
+<p-confirmDialog></p-confirmDialog>
+
+<section class="content-section modulo-layout">
+  <app-page-title
+    class="full-span"
+    [icon]="'pi pi-th-large'"
+    [title]="'Gestión de Módulos'"
+    [subtitle]="'Administra los módulos del sistema: crear, actualizar y eliminar.'"
+  ></app-page-title>
+
+  <div class="main-column">
+    <div class="section-group">
+      <div class="search-table-group">
+        <div id="modulo-busqueda">
+          <app-search-panel
+            [icon]="'pi pi-search'"
+            [title]="'Buscar módulo por ID'"
+            [subtitle]="'Consulta un módulo existente.'"
+            [form]="searchForm"
+            [fields]="searchFields"
+            (search)="buscarPorId()"
+            (clear)="limpiarBusqueda()"
+          ></app-search-panel>
+        </div>
+
+        <div id="modulo-tabla">
+          <app-table
+            [items]="modulos"
+            [isLoading]="isLoading"
+            [selectedItem]="selectedModulo"
+            [title]="'Listado de módulos'"
+            [createLabel]="'Nuevo módulo'"
+            [emptyTitle]="'Sin módulos registrados'"
+            [emptySubtitle]="'Crea el primer módulo para empezar.'"
+            [metaText]="'Última actualización reciente'"
+            (create)="openCreateDialog()"
+            (edit)="edit($event)"
+            (remove)="confirmRemove($event)"
+            (select)="selectModulo($event)"
+          ></app-table>
+        </div>
+      </div>
+
+      <div class="details-group">
+        <div id="modulo-detalle" class="detail-card accent-teal">
+          <app-detail-panel
+            [title]="'Detalle de módulos'"
+            [subtitle]="'Información del módulo seleccionado.'"
+            [form]="detailForm"
+            [fields]="detailFields"
+          ></app-detail-panel>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<app-form-dialog
+  [(visible)]="showFormDialog"
+  [form]="form"
+  [isSubmitting]="isSubmitting"
+  [headerCreate]="'Crear módulo'"
+  [headerEdit]="'Editar módulo'"
+  [subtitle]="'Completa la información básica del módulo.'"
+  [submitCreateLabel]="'Crear'"
+  [submitUpdateLabel]="'Actualizar'"
+  [fields]="formFields"
+  (submitForm)="onSubmit()"
+  (resetForm)="reset()"
+></app-form-dialog>
