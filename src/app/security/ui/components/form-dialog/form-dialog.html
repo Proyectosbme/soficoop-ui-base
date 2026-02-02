@@ -1,0 +1,58 @@
+<p-dialog
+  [(visible)]="visible"
+  (visibleChange)="visibleChange.emit($event)"
+  [modal]="true"
+  [style]="{ width: '32rem' }"
+  [draggable]="false"
+  [resizable]="false"
+  [dismissableMask]="true"
+  [header]="form.getRawValue().id ? headerEdit : headerCreate"
+  [styleClass]="dialogClass"
+>
+  <div class="dialog-subtitle" *ngIf="subtitle">{{ subtitle }}</div>
+  <form [formGroup]="form" (ngSubmit)="submitForm.emit()" class="form-grid">
+    <ng-container *ngFor="let field of fields">
+      <div class="field">
+        <label [for]="field.name">{{ field.label }}</label>
+        <input
+          [id]="field.name"
+          [type]="field.type || 'text'"
+          pInputText
+          [formControlName]="field.name"
+          [placeholder]="field.placeholder || ''"
+        />
+        <small class="p-error" *ngIf="form.get(field.name)?.invalid && (form.get(field.name)?.dirty || form.get(field.name)?.touched)">
+          {{ field.errorMessage || 'Campo obligatorio.' }}
+        </small>
+      </div>
+    </ng-container>
+
+    <div class="actions form-actions">
+      <button
+        pButton
+        type="submit"
+        [label]="form.getRawValue().id ? submitUpdateLabel : submitCreateLabel"
+        icon="pi pi-save"
+        [disabled]="form.invalid || isSubmitting"
+      ></button>
+      <button
+        pButton
+        type="button"
+        [label]="clearLabel"
+        icon="pi pi-refresh"
+        severity="secondary"
+        outlined
+        (click)="resetForm.emit()"
+      ></button>
+    </div>
+  </form>
+
+  <div class="feedback success" *ngIf="successMessage">
+    <div class="feedback-title">Éxito</div>
+    <div>{{ successMessage }}</div>
+  </div>
+
+  <div class="feedback error" *ngIf="errorMessage">
+    <div class="p-error">{{ errorMessage }}</div>
+  </div>
+</p-dialog>

@@ -1,0 +1,54 @@
+<app-page-hero
+  [title]="'Gestión de Módulos'"
+  [subtitle]="'Administra los módulos del sistema: crear, actualizar y eliminar.'"
+></app-page-hero>
+
+<p-confirmDialog></p-confirmDialog>
+
+<section class="content-section">
+  <div class="feedback success" *ngIf="successMessage">
+    <div class="feedback-title">Éxito</div>
+    <div>{{ successMessage }}</div>
+  </div>
+  <div class="feedback error" *ngIf="errorMessage">
+    <div class="p-error">{{ errorMessage }}</div>
+  </div>
+  <app-search-panel
+    [title]="'Buscar módulo por ID'"
+    [subtitle]="'Consulta un módulo existente.'"
+    [form]="searchForm"
+    [fields]="searchFields"
+    (search)="buscarPorId()"
+    (clear)="limpiarBusqueda()"
+  ></app-search-panel>
+  <app-table
+    [items]="modulos"
+    [isLoading]="isLoading"
+    [title]="'Listado de módulos'"
+    [createLabel]="'Nuevo módulo'"
+    [emptyTitle]="'Sin módulos registrados'"
+    [emptySubtitle]="'Crea el primer módulo para empezar.'"
+    [metaText]="'Última actualización reciente'"
+    (create)="openCreateDialog()"
+    (edit)="edit($event)"
+    (remove)="confirmRemove($event)"
+  ></app-table>
+
+</section>
+
+<app-form-dialog
+  [(visible)]="showFormDialog"
+  [form]="form"
+  [isSubmitting]="isSubmitting"
+  [createdModulo]="createdModulo"
+  [errorMessage]="errorMessage"
+  [successMessage]="successMessage"
+  [headerCreate]="'Crear módulo'"
+  [headerEdit]="'Editar módulo'"
+  [subtitle]="'Completa la información básica del módulo.'"
+  [submitCreateLabel]="'Crear'"
+  [submitUpdateLabel]="'Actualizar'"
+  [fields]="formFields"
+  (submitForm)="onSubmit()"
+  (resetForm)="reset()"
+></app-form-dialog>

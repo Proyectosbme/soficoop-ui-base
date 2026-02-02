@@ -5,12 +5,13 @@ import { filter, Subscription } from 'rxjs';
 import { AppTopbar } from './app.topbar';
 import { AppSidebar } from './app.sidebar';
 import { AppFooter } from './app.footer';
+import { AppBreadcrumb } from './breadcrumb/app.breadcrumb';
 import { LayoutService } from '../service/layout.service';
 
 @Component({
     selector: 'app-layout',
     standalone: true,
-    imports: [CommonModule, AppTopbar, AppSidebar, RouterModule, AppFooter],
+    imports: [CommonModule, AppTopbar, AppSidebar, RouterModule, AppFooter, AppBreadcrumb],
     templateUrl: './app.layout.component.html'
 })
 export class AppLayout {

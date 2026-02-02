@@ -43,3 +43,43 @@ export class EmptyMenuException extends SecurityException {
     this.name = 'EmptyMenuException';
   }
 }
+
+/**
+ * Se lanza cuando el nombre del módulo es inválido.
+ */
+export class InvalidModuloNameException extends SecurityException {
+  constructor() {
+    super('El nombre del módulo es obligatorio.');
+    this.name = 'InvalidModuloNameException';
+  }
+}
+
+/**
+ * Se lanza cuando el id del módulo es inválido.
+ */
+export class InvalidModuloIdException extends SecurityException {
+  constructor(id: number) {
+    super(`El id del módulo '${id}' no es válido.`);
+    this.name = 'InvalidModuloIdException';
+  }
+}
+
+/**
+ * Se lanza cuando el nombre del perfil es inválido.
+ */
+export class InvalidPerfilNameException extends SecurityException {
+  constructor() {
+    super('El nombre del perfil es obligatorio.');
+    this.name = 'InvalidPerfilNameException';
+  }
+}
+
+/**
+ * Se lanza cuando el id del perfil es inválido.
+ */
+export class InvalidPerfilIdException extends SecurityException {
+  constructor(id: string) {
+    super(`El id del perfil '${id}' no es válido.`);
+    this.name = 'InvalidPerfilIdException';
+  }
+}
