@@ -1,11 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { TableComponent, TableItem } from '@security/components/table/table';
-import { FormDialogComponent, FormDialogField } from '@security/components/form-dialog/form-dialog';
+import { TableComponent, TableItem } from '@shared/ui/components/table/table';
+import { FormDialogComponent, FormDialogField } from '@shared/ui/components/form-dialog/form-dialog';
 import { PageTitleComponent } from '@shared/ui/components/page-title/page-title';
-import { SearchPanelComponent, SearchFieldConfig } from '@security/components/search-panel/search-panel';
-import { DetailPanelComponent, DetailFieldConfig } from '@security/components/detail-panel/detail-panel';
+import { SearchPanelComponent, SearchFieldConfig } from '@shared/ui/components/search-panel/search-panel';
+import { DetailPanelComponent, DetailFieldConfig } from '@shared/ui/components/detail-panel/detail-panel';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';

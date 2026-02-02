@@ -8,8 +8,25 @@
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
   flex-wrap: wrap;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.header-icon {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 0.75rem;
+  display: grid;
+  place-items: center;
+  background: rgba(59, 130, 246, 0.12);
+  color: #2563eb;
+  font-size: 1rem;
 }
 
 .card-title {
@@ -23,21 +40,29 @@
   font-size: 0.9rem;
 }
 
-.detail-grid {
+.search-grid {
   display: grid;
   gap: 1rem;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   align-items: end;
 }
 
+.search-grid:not(:has(.field:nth-child(3))) {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.search-grid:not(:has(.field:nth-child(2))) {
+  grid-template-columns: 1fr;
+}
+
 @media (max-width: 1200px) {
-  .detail-grid {
+  .search-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 @media (max-width: 720px) {
-  .detail-grid {
+  .search-grid {
     grid-template-columns: 1fr;
   }
 }
@@ -52,7 +77,6 @@
 }
 
 .actions {
-  margin-top: 1rem;
   display: flex;
   gap: 0.75rem;
   flex-wrap: wrap;

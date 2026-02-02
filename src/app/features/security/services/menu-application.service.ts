@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpErrorResponse } from '@angular/common/http';
+import { AppErrors } from '@shared/errors/app-errors';
 import { MenuItem } from '@security/models/menu.model';
 import { SecurityApiClient } from '@security/api/security-api.client';
 
@@ -7,26 +7,38 @@ import { SecurityApiClient } from '@security/api/security-api.client';
 export class MenuService {
     constructor(private readonly api: SecurityApiClient) {}
 
-    cargarMenu(codPerfil: number): Promise<MenuItem[]> {
-        return this.api.getMenu(codPerfil)
-            .catch((error) => { throw this.toUserError(error, 'No se pudo cargar el menú.'); });
+    private getCacheKey(codPerfil: number): string {
+        return `menu-cache-${codPerfil}`;
     }
 
-    private toUserError(error: unknown, fallback: string): Error {
-        if (error instanceof HttpErrorResponse) {
-            if (error.status === 0) {
-                return new Error('No se puede conectar al servicio. Verifica tu conexión.');
+    getCachedMenu(codPerfil: number): MenuItem[] | null {
+        try {
+            const raw = localStorage.getItem(this.getCacheKey(codPerfil));
+            if (!raw) {
+                return null;
             }
-            if (error.status === 404) {
-                return new Error('No encontrado.');
-            }
-            if (error.status === 400) {
-                return new Error('Solicitud inválida.');
-            }
-            if (error.status >= 500) {
-                return new Error('Error interno del servidor.');
-            }
+            const parsed = JSON.parse(raw) as MenuItem[];
+            return Array.isArray(parsed) ? parsed : null;
+        } catch {
+            return null;
         }
-        return new Error(fallback);
     }
+
+    setCachedMenu(codPerfil: number, menu: MenuItem[]): void {
+        try {
+            localStorage.setItem(this.getCacheKey(codPerfil), JSON.stringify(menu));
+        } catch {
+            // Ignorar fallos de almacenamiento
+        }
+    }
+
+    cargarMenu(codPerfil: number): Promise<MenuItem[]> {
+        return this.api.getMenu(codPerfil)
+            .then((menu) => {
+                this.setCachedMenu(codPerfil, menu);
+                return menu;
+            })
+            .catch((error) => { throw AppErrors.fromHttp(error, 'No se pudo cargar el menú.'); });
+    }
+
 }

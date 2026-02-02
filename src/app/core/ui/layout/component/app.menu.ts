@@ -23,6 +23,13 @@ export class AppMenu implements OnInit {
 
     ngOnInit(): void {
         let codperfil: number = 1;
+        const cached = this.menuService.getCachedMenu(codperfil);
+        if (cached && cached.length) {
+            this.model = cached;
+            this.menuStateService.setMenu(cached);
+            return;
+        }
+
         this.menuService.cargarMenu(codperfil).then(menu => {
             this.model = menu;
             this.menuStateService.setMenu(menu);

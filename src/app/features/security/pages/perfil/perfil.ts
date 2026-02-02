@@ -10,10 +10,10 @@ import { ToastModule } from 'primeng/toast';
 
 // Componentes reutilizables de la capa UI (standalone).
 // Se importan aquí para poder usarlos en el template (perfil.html).
-import { SearchPanelComponent, SearchFieldConfig } from '@security/components/search-panel/search-panel';
-import { TableComponent, TableItem } from '@security/components/table/table';
-import { DetailPanelComponent, DetailFieldConfig } from '@security/components/detail-panel/detail-panel';
-import { FormDialogComponent, FormDialogField } from '@security/components/form-dialog/form-dialog';
+import { SearchPanelComponent, SearchFieldConfig } from '@shared/ui/components/search-panel/search-panel';
+import { TableComponent, TableItem } from '@shared/ui/components/table/table';
+import { DetailPanelComponent, DetailFieldConfig } from '@shared/ui/components/detail-panel/detail-panel';
+import { FormDialogComponent, FormDialogField } from '@shared/ui/components/form-dialog/form-dialog';
 import { PageTitleComponent } from '@shared/ui/components/page-title/page-title';
 import { QuickNavComponent, QuickNavItem } from '@shared/ui/components/quick-nav/quick-nav';
 import { QuickNavService } from '@shared/ui/services/quick-nav.service';
