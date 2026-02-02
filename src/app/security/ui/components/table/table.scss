@@ -47,3 +47,7 @@
 :host ::ng-deep .p-datatable-wrapper {
   width: 100%;
 }
+
+:host ::ng-deep .p-datatable .row-selected > td {
+  background: var(--highlight-bg, rgba(16, 185, 129, 0.12));
+}

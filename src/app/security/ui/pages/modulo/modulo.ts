@@ -5,24 +5,26 @@ import { TableComponent, TableItem } from '@security/ui/components/table/table';
 import { FormDialogComponent, FormDialogField } from '@security/ui/components/form-dialog/form-dialog';
 import { PageHeroComponent } from '@shared/ui/components/page-hero/page-hero';
 import { SearchPanelComponent, SearchFieldConfig } from '@security/ui/components/search-panel/search-panel';
+import { DetailPanelComponent, DetailFieldConfig } from '@security/ui/components/detail-panel/detail-panel';
 import { ConfirmDialog } from 'primeng/confirmdialog';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 import { ModuloInputPort } from '@security/application/port/input/modulo-input-port';
 import { MODULO_INPUT_PORT } from '@security/application/port/input/modulo-input.token';
-import { Modulo } from '@security/domain/modulo.model';
 
 @Component({
   selector: 'app-modulo',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, TableComponent, FormDialogComponent, SearchPanelComponent, ConfirmDialog, PageHeroComponent],
+  imports: [CommonModule, ReactiveFormsModule, TableComponent, FormDialogComponent, SearchPanelComponent, DetailPanelComponent, ConfirmDialog, ToastModule, PageHeroComponent],
   templateUrl: './modulo.html',
   styleUrl: './modulo.scss',
-  providers: [ConfirmationService]
+  providers: [ConfirmationService, MessageService]
 })
 export class ModuloPage implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly moduloInputPort = inject<ModuloInputPort>(MODULO_INPUT_PORT);
   private readonly confirmationService = inject(ConfirmationService);
+  private readonly messageService = inject(MessageService);
 
   readonly form = this.fb.nonNullable.group({
     id: [null as number | null],
@@ -30,11 +32,20 @@ export class ModuloPage implements OnInit {
   });
 
   readonly searchForm = this.fb.nonNullable.group({
-    id: ['']
+    id: [''],
+    nombre:['']
+  });
+
+  readonly detailForm = this.fb.nonNullable.group({
+    id: [''],
+    nombre: ['']
   });
 
   readonly searchFields: SearchFieldConfig[] = [
-    { name: 'id', label: 'ID', placeholder: 'Ej: 1', type: 'number' }
+    { name: 'id', label: 'ID', placeholder: 'Ej: 1', type: 'number' },
+    { name: 'nombre', label: 'Nombre', placeholder: 'Ej: Seguridad', type: 'text' },
+    { name: 'id', label: 'ID', placeholder: 'Ej: 1', type: 'number' },
+
   ];
 
   readonly formFields: FormDialogField[] = [
@@ -47,10 +58,13 @@ export class ModuloPage implements OnInit {
     }
   ];
 
+  readonly detailFields: DetailFieldConfig[] = [
+    { name: 'id', label: 'ID', placeholder: 'Ej: 1', type: 'text', readonly: false },
+    { name: 'nombre', label: 'Nombre', placeholder: 'Ej: Seguridad', type: 'text', readonly: false }
+  ];
+
   modulos: TableItem[] = [];
-  createdModulo: Modulo | null = null;
-  errorMessage = '';
-  successMessage = '';
+  selectedModulo: TableItem | null = null;
   isSubmitting = false;
   isLoading = false;
   showFormDialog = false;
@@ -68,28 +82,23 @@ export class ModuloPage implements OnInit {
   }
 
   async loadModulos(): Promise<void> {
-    this.errorMessage = '';
     this.isLoading = true;
 
     try {
       const data = await this.moduloInputPort.obtenerTodas();
       this.modulos = data;
     } catch (error) {
-      this.errorMessage = error instanceof Error
-        ? error.message
-        : 'No se pudieron cargar los módulos.';
+      const detail = error instanceof Error ? error.message : 'No se pudieron cargar los módulos.';
+      this.messageService.add({ severity: 'error', summary: 'Error', detail });
     } finally {
       this.isLoading = false;
     }
   }
 
   async onSubmit(): Promise<void> {
-    this.errorMessage = '';
-    this.successMessage = '';
-    this.createdModulo = null;
-
     if (this.form.invalid) {
       this.form.markAllAsTouched();
+      this.messageService.add({ severity: 'warn', summary: 'Atención', detail: 'Completa los campos obligatorios.' });
       return;
     }
 
@@ -97,7 +106,7 @@ export class ModuloPage implements OnInit {
     const nombreTrim = nombre.trim();
 
     if (!nombreTrim) {
-      this.errorMessage = 'El nombre del módulo es obligatorio.';
+      this.messageService.add({ severity: 'warn', summary: 'Atención', detail: 'El nombre del módulo es obligatorio.' });
       return;
     }
 
@@ -108,8 +117,7 @@ export class ModuloPage implements OnInit {
     try {
       if (isUpdate) {
         const moduloActualizado = await this.moduloInputPort.actualizar(id, { nombre: nombreTrim });
-        this.createdModulo = moduloActualizado;
-        this.successMessage = 'Módulo actualizado correctamente.';
+        this.messageService.add({ severity: 'success', summary: 'Actualizado', detail: 'Módulo actualizado correctamente.' });
         this.form.patchValue({
           id: moduloActualizado.id ?? id,
           nombre: moduloActualizado.nombre
@@ -117,16 +125,16 @@ export class ModuloPage implements OnInit {
         this.showFormDialog = false;
       } else {
         const moduloCreado = await this.moduloInputPort.crear({ nombre: nombreTrim });
-        this.createdModulo = moduloCreado;
-        this.successMessage = 'Módulo creado correctamente.';
+        this.messageService.add({ severity: 'success', summary: 'Creado', detail: 'Módulo creado correctamente.' });
         this.form.reset({ id: null, nombre: '' });
       }
 
       await this.loadModulos();
     } catch (error) {
-      this.errorMessage = error instanceof Error
+      const detail = error instanceof Error
         ? error.message
         : isUpdate ? 'No se pudo actualizar el módulo.' : 'No se pudo crear el módulo.';
+      this.messageService.add({ severity: 'error', summary: 'Error', detail });
 
       if (isUpdate) {
         this.showFormDialog = false;
@@ -137,18 +145,21 @@ export class ModuloPage implements OnInit {
   }
 
   async buscarPorId(): Promise<void> {
-    this.errorMessage = '';
-    this.successMessage = '';
-
     const idRaw = this.searchForm.getRawValue().id.trim();
+    const nom = this.searchForm.getRawValue().nombre.trim();
     if (!idRaw) {
-      this.errorMessage = 'El ID es obligatorio para buscar.';
+      this.messageService.add({ severity: 'warn', summary: 'Atención', detail: 'El ID es obligatorio para buscar.' });
+      return;
+    }
+if (!nom) {
+      this.messageService.add({ severity: 'warn', summary: 'Atención', detail: 'El nombre es obligatorio para buscar.' });
       return;
     }
 
+
     const id = Number(idRaw);
     if (Number.isNaN(id)) {
-      this.errorMessage = 'El ID debe ser numérico.';
+      this.messageService.add({ severity: 'warn', summary: 'Atención', detail: 'El ID debe ser numérico.' });
       return;
     }
 
@@ -157,12 +168,11 @@ export class ModuloPage implements OnInit {
     try {
       const encontrado = await this.moduloInputPort.buscarPorId(id);
       this.modulos = [encontrado];
-      this.successMessage = 'Módulo encontrado correctamente.';
+      this.messageService.add({ severity: 'success', summary: 'Encontrado', detail: 'Módulo encontrado correctamente.' });
     } catch (error) {
       this.modulos = [];
-      this.errorMessage = error instanceof Error
-        ? error.message
-        : 'No se encontró un módulo con ese ID.';
+      const detail = error instanceof Error ? error.message : 'No se encontró un módulo con ese ID.';
+      this.messageService.add({ severity: 'error', summary: 'Error', detail });
     } finally {
       this.isLoading = false;
     }
@@ -171,14 +181,24 @@ export class ModuloPage implements OnInit {
   limpiarBusqueda(): void {
     this.searchForm.reset({ id: '' });
     this.loadModulos();
-    this.errorMessage = '';
-    this.successMessage = '';
+    this.detailForm.reset({ id: '', nombre: '' });
+    this.selectedModulo = null;
+  }
+
+  selectModulo(modulo: TableItem): void {
+    this.selectedModulo = modulo;
+    const parsedId = typeof modulo.id === 'number'
+      ? modulo.id
+      : modulo.id
+        ? Number(modulo.id)
+        : null;
+    this.detailForm.patchValue({
+      id: Number.isFinite(parsedId as number) ? String(parsedId) : '',
+      nombre: modulo.nombre ?? ''
+    });
   }
 
   edit(modulo: TableItem): void {
-    this.successMessage = '';
-    this.errorMessage = '';
-    this.createdModulo = null;
     const parsedId = typeof modulo.id === 'number'
       ? modulo.id
       : modulo.id
@@ -208,25 +228,25 @@ export class ModuloPage implements OnInit {
     const rawId = modulo.id;
     const parsedId = typeof rawId === 'number' ? rawId : rawId ? Number(rawId) : NaN;
     if (!Number.isFinite(parsedId)) {
-      this.errorMessage = 'El módulo seleccionado no tiene id válido.';
+      this.messageService.add({ severity: 'warn', summary: 'Atención', detail: 'El módulo seleccionado no tiene id válido.' });
       return;
     }
-
-    this.errorMessage = '';
-    this.successMessage = '';
     this.isSubmitting = true;
 
     try {
       await this.moduloInputPort.eliminar(parsedId);
       await this.loadModulos();
-      this.successMessage = 'Módulo eliminado correctamente.';
+      this.messageService.add({ severity: 'success', summary: 'Eliminado', detail: 'Módulo eliminado correctamente.' });
+      if (this.detailForm.getRawValue().id === String(parsedId)) {
+        this.detailForm.reset({ id: '', nombre: '' });
+        this.selectedModulo = null;
+      }
       if (this.form.getRawValue().id === parsedId) {
         this.reset();
       }
     } catch (error) {
-      this.errorMessage = error instanceof Error
-        ? error.message
-        : 'No se pudo eliminar el módulo.';
+      const detail = error instanceof Error ? error.message : 'No se pudo eliminar el módulo.';
+      this.messageService.add({ severity: 'error', summary: 'Error', detail });
     } finally {
       this.isSubmitting = false;
     }
@@ -234,9 +254,6 @@ export class ModuloPage implements OnInit {
 
   reset(): void {
     this.form.reset({ id: null, nombre: '' });
-    this.createdModulo = null;
-    this.errorMessage = '';
-    this.successMessage = '';
   }
 
   openCreateDialog(): void {

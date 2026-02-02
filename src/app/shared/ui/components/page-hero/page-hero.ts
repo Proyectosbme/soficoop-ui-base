@@ -11,4 +11,5 @@ import { CommonModule } from '@angular/common';
 export class PageHeroComponent {
   @Input() title = '';
   @Input() subtitle = '';
+  @Input() icon?: string;
 }

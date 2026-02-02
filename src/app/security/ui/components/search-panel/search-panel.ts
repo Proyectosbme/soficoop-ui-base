@@ -21,6 +21,7 @@ export interface SearchFieldConfig {
 export class SearchPanelComponent {
   @Input() title = 'Buscar';
   @Input() subtitle = '';
+  @Input() icon?: string;
   @Input() form!: FormGroup;
   @Input() fields: SearchFieldConfig[] = [];
   @Input() searchLabel = 'Buscar';

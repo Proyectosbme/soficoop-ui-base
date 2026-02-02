@@ -15,11 +15,11 @@
     overflow-y: auto;                    // Scroll vertical automático
     user-select: none;                   // Evita selección de texto
 
-    background-color: var(--surface-overlay); // Fondo del sidebar
-    border-radius: var(--content-border-radius); // Bordes redondeados
+    background-color: var(--surface-0, #ffffff); // Fondo limpio
+    border-radius: 1.25rem;              // Bordes suaves premium
     border: 1px solid var(--surface-border); // Borde sutil
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); // Sombra profesional
-    padding: 0.2rem;                     // Padding ultra compacto
+    box-shadow: 0 16px 32px rgba(15, 23, 42, 0.08); // Sombra refinada
+    padding: 0.5rem;                     // Padding cómodo
     letter-spacing: 0.15px;              // Tipografía más fina
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
@@ -29,19 +29,31 @@
         left var(--layout-section-transition-duration);
 }
 
+:root[class*='app-dark'] .layout-sidebar {
+    background-color: var(--surface-card, #1f2937);
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 18px 36px rgba(0, 0, 0, 0.45);
+}
+
 /* =========================================================
    CONTENEDOR DE CADA MÓDULO (ROOT)
    ========================================================= */
 li.layout-root-menuitem {
-    margin: 0 0 0.2rem;                  // Separación entre módulos
+    margin: 0 0 0.5rem;                  // Separación entre módulos
 
     border: 1px solid var(--surface-border); // Borde general del bloque
-    border-radius: 18px;                 // Redondeo SOLO del contenedor
+    border-radius: 16px;                 // Redondeo consistente
 
-    background-color: var(--surface-card); // Fondo neutro tipo tarjeta
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06); // Sombra ligera tipo tarjeta
+    background-color: var(--surface-card); // Fondo neutro
+    box-shadow: 0 6px 16px rgba(15, 23, 42, 0.06); // Sombra suave
 
     overflow: hidden;                    // 🔑 evita cortes con textos largos
+}
+
+:root[class*='app-dark'] li.layout-root-menuitem {
+    background-color: var(--surface-card, #1f2937);
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
 }
 
 /* =========================================================
@@ -52,7 +64,7 @@ li.layout-root-menuitem {
     align-items: center;                 // Alineación vertical
     gap: 0.75rem;                        // Espacio icono ↔ texto
 
-    padding: 0.75rem 1.05rem;            // Espaciado interno cómodo
+    padding: 0.7rem 1rem;                // Espaciado interno cómodo
 
     font-size: 0.95rem;                  // Tamaño de texto legible
     font-weight: 700;                    // Peso medio
@@ -75,14 +87,22 @@ li.layout-root-menuitem {
 
 /* Bordes visibles para raíz cuando está cerrado */
 .layout-menu > li:not(.active-menuitem) > .layout-menuitem-root-link {
-    border-color: var(--surface-border);
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+    border-color: transparent;
+    box-shadow: none;
 }
 
 .layout-menuitem-root-link:hover {
-    background-color: var(--surface-hover);
-    border-color: var(--surface-border);
+    background-color: color-mix(in srgb, var(--primary-color), transparent 92%);
+    border-color: transparent;
     color: var(--text-color);
+}
+
+:root[class*='app-dark'] .layout-menuitem-root-link {
+    color: var(--text-color, #e5e7eb);
+}
+
+:root[class*='app-dark'] .layout-menuitem-root-link:hover {
+    background-color: color-mix(in srgb, var(--primary-color), transparent 85%);
 }
 
 /* =========================================================
@@ -90,10 +110,15 @@ li.layout-root-menuitem {
    ========================================================= */
 .layout-menu > li.active-menuitem > .layout-menuitem-root-link {
     font-weight: 800;                    // Más énfasis visual
-    background-color: var(--surface-hover); // Fondo activo
+    background-color: color-mix(in srgb, var(--primary-color), transparent 94%);
 
-    border: 1px solid var(--surface-border); // 🔑 se integra al contenedor
+    border: 1px solid var(--surface-border);
     border-radius: 14px 14px 0 0;        // Solo esquinas superiores
+}
+
+:root[class*='app-dark'] .layout-menu > li.active-menuitem > .layout-menuitem-root-link {
+    background-color: color-mix(in srgb, var(--primary-color), transparent 82%);
+    border-color: rgba(255, 255, 255, 0.08);
 }
 
 /* Raíces dentro de submenús sin borde y con esquinas redondeadas */
@@ -164,13 +189,21 @@ li.layout-root-menuitem {
 }
 
 .layout-menu > li.active-menuitem > ul {
-    padding: 0.35rem 0 0.35rem;         // Espacio interno cuando está abierto
-    background-color: transparent;
-    border-left: 1px solid color-mix(in srgb, var(--surface-border), transparent 25%);
-    border-right: 1px solid color-mix(in srgb, var(--surface-border), transparent 25%);
-    border-bottom: 1px solid color-mix(in srgb, var(--surface-border), transparent 25%);
-    border-radius: 0 0 12px 12px;       // Esquinas inferiores redondeadas
-    box-shadow: none;
+    padding: 0.4rem 0.35rem 0.6rem;     // Espacio interno cuando está abierto
+    background-color: color-mix(in srgb, var(--surface-0, #ffffff), transparent 6%);
+    border-left: 1px solid color-mix(in srgb, var(--surface-border), transparent 35%);
+    border-right: 1px solid color-mix(in srgb, var(--surface-border), transparent 35%);
+    border-bottom: 1px solid color-mix(in srgb, var(--surface-border), transparent 35%);
+    border-radius: 0 0 14px 14px;       // Esquinas inferiores redondeadas
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+:root[class*='app-dark'] .layout-menu > li.active-menuitem > ul {
+    background-color: color-mix(in srgb, var(--surface-card, #1f2937), transparent 4%);
+    border-left: 1px solid rgba(255, 255, 255, 0.12);
+    border-right: 1px solid rgba(255, 255, 255, 0.12);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
 /* Submenús internos sin borde para evitar doble línea */
@@ -182,9 +215,9 @@ li.layout-root-menuitem {
     box-shadow: none;
 }
 
-/* Solo el último hijo hoja cierra el cuadro (nivel raíz) */
+/* Último hijo hoja con esquinas completas redondeadas */
 .layout-menu > li.active-menuitem > ul > li:last-child > a:not(.layout-menuitem-root-link) {
-    border-radius: 0 0 12px 12px;
+    border-radius: 12px;
 }
 
 .layout-menu li:not(.active-menuitem) > ul {
@@ -199,9 +232,9 @@ li.layout-root-menuitem {
     align-items: center;
     gap: 0.5rem;                         // Espacio icono ↔ texto
 
-    padding: 0.6rem 0.9rem;              // Espaciado compacto
+    padding: 0.55rem 0.85rem;            // Espaciado compacto
     padding-left: 2.6rem;                // Sangría base para primer nivel
-    margin-top: 0.125rem;                // Separación vertical leve
+    margin-top: 0.15rem;                 // Separación vertical leve
 
     width: 100%;
     box-sizing: border-box;              // Mantiene el mismo borde final
@@ -220,12 +253,20 @@ li.layout-root-menuitem {
         color var(--element-transition-duration);
 }
 
+:root[class*='app-dark'] .layout-menu ul a {
+    color: var(--text-color, #e5e7eb);
+}
+
 /* =========================================================
    HOVER Y ACTIVO SUBMENÚ
    ========================================================= */
 .layout-menu ul a:hover {
-    background-color: var(--surface-hover);
-    box-shadow: inset 2px 0 0 color-mix(in srgb, var(--primary-color), transparent 70%);
+    background-color: color-mix(in srgb, var(--primary-color), transparent 93%);
+    box-shadow: inset 3px 0 0 color-mix(in srgb, var(--primary-color), transparent 55%);
+}
+
+:root[class*='app-dark'] .layout-menu ul a:hover {
+    background-color: color-mix(in srgb, var(--primary-color), transparent 80%);
 }
 
 .layout-menu ul a.active-route {
@@ -233,11 +274,18 @@ li.layout-root-menuitem {
     background-color: color-mix(in srgb, var(--primary-color), transparent 88%);
     color: var(--primary-color);
     box-shadow: inset 2px 0 0 var(--primary-color);
+    border-radius: 12px;
+}
+
+:root[class*='app-dark'] .layout-menu ul a.active-route {
+    background-color: color-mix(in srgb, var(--primary-color), transparent 75%);
+    color: var(--primary-color);
+    border-radius: 12px;
 }
 
 /* Sombra solo en seleccionados hijos */
 .layout-menu ul a.active-route {
-    box-shadow: inset 2px 0 0 var(--primary-color), 0 2px 8px rgba(0, 0, 0, 0.08);
+    box-shadow: inset 2px 0 0 var(--primary-color), 0 2px 10px rgba(15, 23, 42, 0.08);
 }
 
 .layout-menu > li > a.active-route,

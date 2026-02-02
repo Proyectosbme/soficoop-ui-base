@@ -17,6 +17,7 @@
         width: 20rem;
         display: flex;
         align-items: center;
+        gap: 0.75rem;
     }
 
     .layout-topbar-logo {
@@ -27,6 +28,7 @@
         color: var(--text-color);
         font-weight: 500;
         gap: 0.5rem;
+        line-height: 1;
 
         svg {
             width: 3rem;
@@ -35,6 +37,22 @@
         &:focus-visible {
             @include focused();
         }
+    }
+
+    .layout-topbar-breadcrumb {
+        margin: 0;
+        display: flex;
+        align-items: center;
+    }
+
+    .layout-topbar-breadcrumb .app-breadcrumb {
+        margin-bottom: 0;
+    }
+
+    .layout-topbar-breadcrumb .p-breadcrumb {
+        font-size: 0.95rem;
+        line-height: 1;
+        padding-top: 0.1rem;
     }
 
     .layout-topbar-action {
@@ -103,6 +121,10 @@
 
         .layout-topbar-logo-container {
             width: auto;
+        }
+
+        .layout-topbar-breadcrumb {
+            display: none;
         }
 
         .layout-menu-button {

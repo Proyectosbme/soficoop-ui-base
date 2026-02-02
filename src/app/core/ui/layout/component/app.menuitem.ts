@@ -112,8 +112,8 @@ export class AppMenuitem implements OnInit {
             this.item.command({ originalEvent: event, item: this.item });
         }
 
-        // toggle active state
-        if (this.item.items) {
+        // toggle active state only when has children
+        if (this.hasChildren(this.item)) {
             this.active = !this.active;
         }
 
@@ -122,6 +122,10 @@ export class AppMenuitem implements OnInit {
 
     get submenuAnimation() {
         return this.root ? 'expanded' : this.active ? 'expanded' : 'collapsed';
+    }
+
+    hasChildren(item: MenuItem): boolean {
+        return Array.isArray(item.items) && item.items.length > 0;
     }
 
     @HostBinding('class.active-menuitem')

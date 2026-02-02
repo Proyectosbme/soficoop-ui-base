@@ -1,8 +1,26 @@
 <div class="card card-elevated">
   <div class="card-header">
-    <div>
-      <div class="card-title">{{ title }}</div>
-      <div class="card-subtitle" *ngIf="subtitle">{{ subtitle }}</div>
+    <div class="header-content">
+      <div class="header-icon" *ngIf="icon">
+        <i [class]="icon"></i>
+      </div>
+      <div>
+        <div class="card-title">{{ title }}</div>
+        <div class="card-subtitle" *ngIf="subtitle">{{ subtitle }}</div>
+      </div>
+    </div>
+    <div class="actions">
+      <button pButton type="button" [label]="searchLabel" icon="pi pi-search" (click)="search.emit()"></button>
+      <button
+        *ngIf="showClear"
+        pButton
+        type="button"
+        [label]="clearLabel"
+        icon="pi pi-times"
+        severity="secondary"
+        outlined
+        (click)="clear.emit()"
+      ></button>
     </div>
   </div>
 
@@ -19,18 +37,5 @@
         />
       </div>
     </ng-container>
-    <div class="actions">
-      <button pButton type="button" [label]="searchLabel" icon="pi pi-search" (click)="search.emit()"></button>
-      <button
-        *ngIf="showClear"
-        pButton
-        type="button"
-        [label]="clearLabel"
-        icon="pi pi-times"
-        severity="secondary"
-        outlined
-        (click)="clear.emit()"
-      ></button>
-    </div>
   </form>
 </div>

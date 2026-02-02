@@ -1,6 +1,11 @@
 <section class="page-hero">
-  <div>
-    <div class="page-title">{{ title }}</div>
-    <div class="page-subtitle" *ngIf="subtitle">{{ subtitle }}</div>
+  <div class="hero-content">
+    <div class="hero-icon" *ngIf="icon">
+      <i [class]="icon"></i>
+    </div>
+    <div>
+      <div class="page-title">{{ title }}</div>
+      <div class="page-subtitle" *ngIf="subtitle">{{ subtitle }}</div>
+    </div>
   </div>
 </section>

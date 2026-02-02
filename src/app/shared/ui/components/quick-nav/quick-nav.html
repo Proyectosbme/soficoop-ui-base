@@ -1,0 +1,37 @@
+<div class="card card-elevated">
+  <div class="card-header">
+    <div class="card-title">{{ title }}</div>
+    <button
+      *ngIf="collapsible"
+      type="button"
+      class="quick-nav-toggle"
+      (click)="toggleCollapsed()"
+      [attr.aria-expanded]="!collapsed"
+    >
+      <i class="pi" [ngClass]="collapsed ? 'pi-chevron-down' : 'pi-chevron-up'"></i>
+    </button>
+  </div>
+
+  <div class="quick-nav-list" role="navigation" *ngIf="!collapsed">
+    <button
+      *ngFor="let item of items"
+      type="button"
+      class="quick-nav-item"
+      [class.active]="item.id === activeId"
+      (click)="navigate(item)"
+    >
+      <span class="quick-nav-label">{{ item.label }}</span>
+      <span *ngIf="item.badge" class="quick-nav-badge">{{ item.badge }}</span>
+    </button>
+  </div>
+
+  <div class="quick-nav-hint" *ngIf="!collapsed && (hintTitle || hintText)">
+    <div class="hint-icon">
+      <i [class]="hintIcon"></i>
+    </div>
+    <div>
+      <div class="hint-title" *ngIf="hintTitle">{{ hintTitle }}</div>
+      <div class="hint-text" *ngIf="hintText">{{ hintText }}</div>
+    </div>
+  </div>
+</div>
